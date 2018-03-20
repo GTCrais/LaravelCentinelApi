@@ -1,7 +1,7 @@
 {
     "name": "gtcrais/laravel-centinel-api",
-    "description": "Application Administration API for Laravel 5",
-    "keywords": ["Laravel Admin API", "Laravel Application Administration API"],
+    "description": "Laravel Centinel API for Laravel 4.2",
+    "keywords": ["Laravel Centinel API"],
     "authors": [
         {
             "name": "Tomislav Modrić",
