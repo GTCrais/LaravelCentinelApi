@@ -1,0 +1,21 @@
+{
+    "name": "gtcrais/laravel-centinel-api",
+    "description": "Application Administration API for Laravel 5",
+    "keywords": ["Laravel Admin API", "Laravel Application Administration API"],
+    "authors": [
+        {
+            "name": "Tomislav Modrić",
+            "email": "tomislav@gtcrais.net"
+        }
+    ],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "GTCrais\\LaravelCentinelApi\\": "src"
+        }
+    },
+    "require": {
+        "spatie/db-dumper": "1.5.1"
+    }
+}
