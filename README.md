@@ -10,7 +10,7 @@ This package provides API for downloading the application log file, and dumping 
 
 ## Installation
 
-- add `"gtcrais/laravel-centinel-api": "1.0.*"` to your `composer.json` and run `composer update`
+- add `"gtcrais/laravel-centinel-api": "1.1.*"` to your `composer.json` and run `composer update`
 - add `'GTCrais\LaravelCentinelApi\CentinelApiServiceProvider',` to providers array in `/app/config/app.php` and run `composer dump-autoload`
 - run `php artisan centinel-api:setup`
 
