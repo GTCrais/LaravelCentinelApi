@@ -9,12 +9,7 @@ class CentinelApiController extends \BaseController
 {
 	public function createLog()
 	{
-		$data = [
-			'success' => false,
-			'filesize' => 0,
-			'filePath' => null,
-			'message' => null
-		];
+		$data = $this->getDefaultDataSet();
 
 		$filePath = storage_path('logs/laravel.log');
 
@@ -63,12 +58,7 @@ class CentinelApiController extends \BaseController
 
 	public function dumpDatabase()
 	{
-		$data = [
-			'success' => false,
-			'filesize' => 0,
-			'filePath' => null,
-			'message' => null
-		];
+		$data = $this->getDefaultDataSet();
 
 		try {
 			$this->createDbDumpFolder();
@@ -175,6 +165,28 @@ class CentinelApiController extends \BaseController
 		return [
 			storage_path('logs/y' . $year),
 			storage_path('logs/y' . $year . '/m' . $month),
+		];
+	}
+
+	protected function getPlatform()
+	{
+		return 'laravel';
+	}
+
+	protected function getPlatformVersion()
+	{
+		return '4.2';
+	}
+
+	protected function getDefaultDataSet()
+	{
+		return [
+			'success' => false,
+			'filesize' => 0,
+			'filePath' => null,
+			'message' => null,
+			'platform' => $this->getPlatform(),
+			'platformVersion' => $this->getPlatformVersion()
 		];
 	}
 }
