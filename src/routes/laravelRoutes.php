@@ -1,11 +1,9 @@
 <?php
 
-Route::filter('centinelMiddleware', 'GTCrais\LaravelCentinelApi\Middleware\AuthorizeCentinelApiRequest');
-
 Route::group([
-	'prefix' => Config::get('laravel-centinel-api::routePrefix'),
+	'prefix' => config('centinelApi.routePrefix'),
 	'namespace' => 'GTCrais\LaravelCentinelApi\Controllers',
-	'before' => 'centinelMiddleware'
+	'middleware' => GTCrais\LaravelCentinelApi\Middleware\AuthorizeCentinelApiRequest::class
 ], function() {
 	Route::post('create-log', ['as' => 'centinelApiLogCreate', 'uses' => 'CentinelApiController@createLog']);
 	Route::post('download-log', ['as' => 'centinelApiLogDownload', 'uses' => 'CentinelApiController@downloadLog']);

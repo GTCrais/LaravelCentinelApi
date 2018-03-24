@@ -17,6 +17,6 @@ class Zipper
 
 	protected static function getZipPassword()
 	{
-		return \Config::get('laravel-centinel-api::zipPassword');
+		return config('centinelApi.zipPassword');
 	}
 }

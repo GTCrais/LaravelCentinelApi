@@ -2,6 +2,7 @@
 
 namespace GTCrais\LaravelCentinelApi\Console\Commands;
 
+use GTCrais\LaravelCentinelApi\Classes\Platform;
 use GTCrais\LaravelCentinelApi\Classes\Zipper;
 use Illuminate\Console\Command;
 
@@ -12,7 +13,7 @@ class CheckZipLibraries extends Command
      *
      * @var string
      */
-    protected $name = 'centinel-api:check-zip';
+    protected $signature = 'centinel-api:check-zip';
 
     /**
      * The console command description.
@@ -36,15 +37,16 @@ class CheckZipLibraries extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
 		$this->info("Checking Zip libraries availability...");
 
-		$filePath = storage_path('logs/laravel.log');
+		$filename = Platform::getLogFilename();
+		$filePath = storage_path('logs/' . $filename);
 		$zipPath = storage_path('logs/laravel.zip');
 
 		if (!file_exists($filePath)) {
-			\File::put($filePath, '');
+			file_put_contents($filePath, '');
 		}
 
 		Zipper::create7zip($filePath, $zipPath);

@@ -1,24 +1,51 @@
-# Laravel Centinel API for Laravel 4.2
+# Laravel Centinel API for Laravel 5
 
 This package provides API for downloading the application log file, and dumping and downloading the database. It ships with authentication middleware which protects the API routes.
 
+##### For **Laravel 4.2** use [Centinel API v1.1](https://github.com/GTCrais/LaravelCentinelApi/tree/v1.1)
+
 ## Requirements
 
-- PHP 5.6
+- PHP 5.6+
+- Laravel 5.1+ (Laravel 5.0 is not supported due to incompatibility with Symfony components used in it)
 - make sure your Cache driver is configured and is working
 - Windows environment is not supported
 
-## Installation
+## Installation: Laravel
 
-- add `"gtcrais/laravel-centinel-api": "1.1.*"` to your `composer.json` and run `composer update`
-- add `'GTCrais\LaravelCentinelApi\CentinelApiServiceProvider',` to providers array in `/app/config/app.php` and run `composer dump-autoload`
+- add `"gtcrais/laravel-centinel-api": "2.0.*"` to your `composer.json` and run `composer update`
+- for Laravel `<=5.4` add `'GTCrais\LaravelCentinelApi\CentinelApiServiceProvider',` to providers array in `/app/config/app.php` and run `composer dump-autoload`
 - run `php artisan centinel-api:setup`
+
+## Installation: Lumen
+
+- add `"gtcrais/laravel-centinel-api": "2.0.*"` to your `composer.json` and run `composer update`
+- uncomment `$app->withFacades();` in `/bootstrap/app.php`
+- add `$app->configure('centinelApi');` to `/bootstrap/app.php`. This will load Centinel API configuration
+- add `$app->register(GTCrais\LaravelCentinelApi\LumenCentinelApiServiceProvider::class);` to `/bootstrap/app.php` **below** config file registration
+- run `php artisan centinel-api:setup`
+
+## Additional Installation Notes
+
+### Laravel 5.1
+
+- add `routePrefix` to `VerifyCsrfToken` middleware's `$except` array. Example:  
+```php
+protected $except = [
+	'Hts71OwsRTwjXDb5Kdp5zk5l6KsvEz7Q/*' // Note the /* at the end
+];
+```
+
+### Lumen
+
+Centinel API will first look for database connection configuration in `/config/database.php`. If it's not available there,
+it will look in `.env` file. Make sure one of these options is available if you wish to use the database dump functionality.
 
 ## Usage
 
 Laravel Centinel API is designed to work in combination with [Centinel](https://centinel.online) - centralized application management system. 
 
-After going through the installation process you will find your `config.php` file in `/app/config/packages/gtcrais/laravel-centinel-api` directory.
+After going through the installation process you will find your `centinelApi.php` file in `/config` directory.
 From there, copy `privateKey`, `encryptionKey` and `routePrefix` to Centinel, and you're ready to schedule your application log checks and database backups.
 
 ### Config File
@@ -26,16 +53,17 @@ From there, copy `privateKey`, `encryptionKey` and `routePrefix` to Centinel, an
 - `privateKey` - random string, used for authentication  
 - `encryptionKey` - random string, used for additional security layer 
 - `routePrefix` - random string, prefixing the API routes  
-- `enabledRoutes` - if you only wish part of the API to be exposed, you can disabled either Log or Database routes here 
+- `enabledRoutes` - if you only wish part of the API to be exposed, you can disable either Log or Database routes here 
 - `zipPassword` - password used when zipping the database dump
-- `database` - database settings and options:
-    - `connection` - required. `{default}` to use the default connection, or define connection explicitly
-    - `port` - optional. Connection port
-    - `unix_socket` - optional. Connection unix socket
-    - `dump_binary_path` - optional. Path to dump utility
-    - `timeout` - optional. Dump timeout
-    - `includeTables` - optional. Dump only tables specified in the array
-    - `excludeTables` - optional. Dump all tables except ones specified in the array
+- `database` - database settings and options
+
+All of the database options except for `connection` are optional.
+
+Some of the database options are not available for Laravel/Lumen 5.1, and on PHP 5 (regardless of the framework version).
+For more details check [Spatie DB Dumper v1.5.1](https://github.com/spatie/db-dumper/tree/1.5.1)
+
+For details on how to use the options check the installed version of the package.
+For Laravel/Lumen 5.2+ on PHP 7 that will be [Spatie DB Dumper v2.9](https://github.com/spatie/db-dumper/tree/2.9.0)
 
 To ignore a database setting/option, set it to `null`.
 
@@ -50,13 +78,16 @@ For more details check `/Controllers/CentinelApiController.php` controller.
 
 ### Database Backups
 
-[`spatie/db-dumper`](https://github.com/spatie/db-dumper/tree/1.5.1)(v1.5.1) is used to make database dumps. MySQL and PostgreSQL
+[`spatie/db-dumper`](https://github.com/spatie/db-dumper) is used to make database dumps. **MySQL** and **PostgreSQL**
 are supported, and require `mysqldump` and `pg_dump` utilities, respectively.
+
+Additionally, on Laravel/Lumen **5.2+** applications running on **PHP 7**, **Sqlite** and **MongoDB** are supported, and require
+`sqlite3` and `mongodump` utilities, respectively.
 
 Centinel API will try to zip and password protect database dumps before sending them to Centinel. It will look for 7-Zip and Zip
 libraries to do so. If neither library is available, dumps will be sent without being zipped and password protected.
 
-Run `php artisan centinel-api:check-zip` to see which library is available on your server. Note that Zip encryption alghoritm is much less
+Run `php artisan centinel-api:check-zip` to see which library is available on your server. Note that Zip encryption algorithm is much less
 secure than that of 7-Zip. Ultimately it is up to you to decide which level of security is satisfactory. You can always opt out of
 backing up your database by disabling database backups in Centinel, and additionally, commenting out `DatabaseRoutes` in the
 `enabledRoutes` config option.
