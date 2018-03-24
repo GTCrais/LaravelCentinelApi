@@ -72,7 +72,7 @@ class CentinelApiController extends \BaseController
 
 			$data['success'] = true;
 			$data['filesize'] = $filesize;
-			$data['filePath'] = $zipFilename;
+			$data['filePath'] = $zipFilename ?: $filename;
 		} catch (\Exception $e) {
 			\Log::error($e);
 			$data['message'] = "Error while dumping database: " . $e->getMessage();
@@ -90,9 +90,7 @@ class CentinelApiController extends \BaseController
 			return \Response::make("Incorrect dataset.", 422);
 		}
 
-		$deleteFile = \Request::get('deleteFile') ? true : false;
-
-		return \Response::download($fullFilePath)->deleteFileAfterSend($deleteFile);
+		return \Response::download($fullFilePath)->deleteFileAfterSend(true);
 	}
 
 	protected function zipDatabase($filePath)
