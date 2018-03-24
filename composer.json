@@ -16,6 +16,13 @@
         }
     },
     "require": {
-        "spatie/db-dumper": "1.5.1"
+        "spatie/db-dumper": "1.5.1|2.9.*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GTCrais\\LaravelCentinelApi\\LaravelCentinelApiServiceProvider"
+            ]
+        }
     }
 }

@@ -2,16 +2,20 @@
 
 namespace GTCrais\LaravelCentinelApi\Controllers;
 
+use App\Http\Controllers\Controller;
 use GTCrais\LaravelCentinelApi\Classes\Database;
+use GTCrais\LaravelCentinelApi\Classes\Platform;
 use GTCrais\LaravelCentinelApi\Classes\Zipper;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
-class CentinelApiController extends \BaseController
+class CentinelApiController extends Controller
 {
 	public function createLog()
 	{
 		$data = $this->getDefaultDataSet();
 
-		$filePath = storage_path('logs/laravel.log');
+		$filePath = storage_path('logs/' . Platform::getLogFilename());
 
 		try {
 		    if (file_exists($filePath)) {
@@ -20,7 +24,7 @@ class CentinelApiController extends \BaseController
 				if (!trim($logContents)) {
 					$data['success'] = true;
 
-					return \Response::json($data);
+					return response()->json($data);
 				}
 
 				$filesize = filesize($filePath);
@@ -37,23 +41,23 @@ class CentinelApiController extends \BaseController
 				$data['message'] = "Log file doesn't exist";
 			}
 		} catch (\Exception $e) {
-			\Log::error($e);
+			Log::error($e);
 			$data['message'] = "Error while creating the log file: " . $e->getMessage();
 		}
 
-		return \Response::json($data);
+		return response()->json($data);
 	}
 
-	public function downloadLog()
+	public function downloadLog(Request $request)
 	{
-		$filePath = \Request::get('filePath');
+		$filePath = $request->get('filePath');
 		$fullFilePath = storage_path($filePath);
 
 		if (!$filePath || !file_exists($fullFilePath)) {
-			return \Response::make("Incorrect dataset.", 422);
+			return response("Incorrect dataset.", 422);
 		}
 
-		return \Response::download($fullFilePath);
+		return response()->download($fullFilePath);
 	}
 
 	public function dumpDatabase()
@@ -72,27 +76,25 @@ class CentinelApiController extends \BaseController
 
 			$data['success'] = true;
 			$data['filesize'] = $filesize;
-			$data['filePath'] = $zipFilename;
+			$data['filePath'] = $zipFilename ?: $filename;
 		} catch (\Exception $e) {
-			\Log::error($e);
+			Log::error($e);
 			$data['message'] = "Error while dumping database: " . $e->getMessage();
 		}
 
-		return \Response::json($data);
+		return response()->json($data);
 	}
 
-	public function downloadDatabase()
+	public function downloadDatabase(Request $request)
 	{
-		$filename = \Request::get('filePath');
+		$filename = $request->get('filePath');
 		$fullFilePath = Database::getDumpPath($filename);
 
 		if (!$filename || !file_exists($fullFilePath)) {
-			return \Response::make("Incorrect dataset.", 422);
+			return response("Incorrect dataset.", 422);
 		}
 
-		$deleteFile = \Request::get('deleteFile') ? true : false;
-
-		return \Response::download($fullFilePath)->deleteFileAfterSend($deleteFile);
+		return response()->download($fullFilePath)->deleteFileAfterSend(true);
 	}
 
 	protected function zipDatabase($filePath)
@@ -170,12 +172,12 @@ class CentinelApiController extends \BaseController
 
 	protected function getPlatform()
 	{
-		return 'laravel';
+		return Platform::getPlatform();
 	}
 
 	protected function getPlatformVersion()
 	{
-		return '4.2';
+		return Platform::getPlatformVersion();
 	}
 
 	protected function getDefaultDataSet()
