@@ -26,7 +26,7 @@ From there, copy `privateKey`, `encryptionKey` and `routePrefix` to Centinel, an
 - `privateKey` - random string, used for authentication  
 - `encryptionKey` - random string, used for additional security layer 
 - `routePrefix` - random string, prefixing the API routes  
-- `enabledRoutes` - if you only wish part of the API to be exposed, you can disabled either Log or Database routes here 
+- `enabledRoutes` - if you only wish part of the API to be exposed, you can disable either Log or Database routes here 
 - `zipPassword` - password used when zipping the database dump
 - `database` - database settings and options:
     - `connection` - required. `{default}` to use the default connection, or define connection explicitly
@@ -56,7 +56,7 @@ are supported, and require `mysqldump` and `pg_dump` utilities, respectively.
 Centinel API will try to zip and password protect database dumps before sending them to Centinel. It will look for 7-Zip and Zip
 libraries to do so. If neither library is available, dumps will be sent without being zipped and password protected.
 
-Run `php artisan centinel-api:check-zip` to see which library is available on your server. Note that Zip encryption alghoritm is much less
+Run `php artisan centinel-api:check-zip` to see which library is available on your server. Note that Zip encryption algorithm is much less
 secure than that of 7-Zip. Ultimately it is up to you to decide which level of security is satisfactory. You can always opt out of
 backing up your database by disabling database backups in Centinel, and additionally, commenting out `DatabaseRoutes` in the
 `enabledRoutes` config option.
