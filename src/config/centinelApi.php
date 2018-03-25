@@ -15,6 +15,16 @@ return [
 
 	/*
 	|
+	| Set to TRUE if you're getting "Request time mismatch" or
+	| "Too many API calls" error. It means your server's and
+	| Centinel's datetime are out of sync.
+	|
+	*/
+
+	'disableTimeBasedAuthorization' => false,
+
+	/*
+	|
 	| All of the options except for 'connection' are optional.
 	|
 	| Some of the database options are not available for Laravel/Lumen 5.1

@@ -14,7 +14,7 @@ class LaravelCentinelApiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-		include __DIR__ . '/routes/laravelRoutes.php';
+		$this->loadRoutes();
     }
 
     /**
@@ -31,4 +31,15 @@ class LaravelCentinelApiServiceProvider extends ServiceProvider
 			'GTCrais\LaravelCentinelApi\Console\Commands\CheckZipLibraries',
 		]);
     }
+
+	protected function loadRoutes()
+	{
+		$routePath = __DIR__ . '/routes/laravelRoutes.php';
+
+		if (method_exists($this, 'loadRoutesFrom')) {
+			$this->loadRoutesFrom($routePath);
+		} else {
+			include $routePath;
+		}
+	}
 }

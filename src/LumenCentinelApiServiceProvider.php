@@ -14,7 +14,7 @@ class LumenCentinelApiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-		include __DIR__ . '/routes/lumenRoutes.php';
+		$this->loadRoutes();
     }
 
     /**
@@ -31,4 +31,9 @@ class LumenCentinelApiServiceProvider extends ServiceProvider
 			'GTCrais\LaravelCentinelApi\Console\Commands\CheckZipLibraries',
 		]);
     }
+
+	protected function loadRoutes()
+	{
+		include __DIR__ . '/routes/lumenRoutes.php';
+	}
 }

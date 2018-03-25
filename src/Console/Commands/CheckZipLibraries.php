@@ -20,7 +20,7 @@ class CheckZipLibraries extends Command
      *
      * @var string
      */
-    protected $description = 'Checks availability of Zip and 7-zip libraries';
+    protected $description = 'Checks availability of Zip and 7-Zip libraries';
 
     /**
      * Create a new command instance.
@@ -54,7 +54,7 @@ class CheckZipLibraries extends Command
 		if (file_exists($zipPath)) {
 			unlink($zipPath);
 
-			$this->info("7-zip is available! Your database dumps will be zipped using 7-zip and encrypted with AES-256.");
+			$this->info("7-zip is available! Your database dumps will be zipped using 7-Zip and encrypted with AES-256.");
 
 			return;
 		}
