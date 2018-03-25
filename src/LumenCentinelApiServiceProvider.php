@@ -34,6 +34,12 @@ class LumenCentinelApiServiceProvider extends ServiceProvider
 
 	protected function loadRoutes()
 	{
-		include __DIR__ . '/routes/lumenRoutes.php';
+		$routePath = __DIR__ . '/routes/lumenRoutes.php';
+
+		if (method_exists($this, 'loadRoutesFrom')) {
+			$this->loadRoutesFrom($routePath);
+		} else {
+			include $routePath;
+		}
 	}
 }

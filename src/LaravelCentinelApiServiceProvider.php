@@ -34,6 +34,12 @@ class LaravelCentinelApiServiceProvider extends ServiceProvider
 
 	protected function loadRoutes()
 	{
-		include __DIR__ . '/routes/laravelRoutes.php';
+		$routePath = __DIR__ . '/routes/laravelRoutes.php';
+
+		if (method_exists($this, 'loadRoutesFrom')) {
+			$this->loadRoutesFrom($routePath);
+		} else {
+			include $routePath;
+		}
 	}
 }
