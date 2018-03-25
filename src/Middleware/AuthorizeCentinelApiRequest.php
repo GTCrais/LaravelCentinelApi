@@ -106,7 +106,9 @@ class AuthorizeCentinelApiRequest
 		$now = Carbon::now('UTC');
 		$diffInSeconds = $receivedDateTime->diffInSeconds($now);
 
-		if ($diffInSeconds > 45) {
+		$timeBasedAuthorizationDisabled = config('centinelApi.disableTimeBasedAuthorization');
+
+		if (!$timeBasedAuthorizationDisabled && $diffInSeconds > 45) {
 			Log::error('Laravel Centinel API: request time mismatch (1)');
 
 			return false;
@@ -125,18 +127,20 @@ class AuthorizeCentinelApiRequest
 				return false;
 			}
 
-			$lastRouteAccessTime = Carbon::createFromFormat('Y-m-d H:i:s', $lastRouteAccessTime, 'UTC');
+			if (!$timeBasedAuthorizationDisabled) {
+				$lastRouteAccessTime = Carbon::createFromFormat('Y-m-d H:i:s', $lastRouteAccessTime, 'UTC');
 
-			if ($lastRouteAccessTime->diffInSeconds($receivedDateTime) < 90) {
-				Log::error('Laravel Centinel API: Too many API calls for route ' . $routeName);
+				if ($lastRouteAccessTime->diffInSeconds($receivedDateTime) < 90) {
+					Log::error('Laravel Centinel API: Too many API calls for route ' . $routeName);
 
-				return false;
-			}
+					return false;
+				}
 
-			if ($receivedDateTime < $lastRouteAccessTime) {
-				Log::error('Laravel Centinel API: request time mismatch (2)');
+				if ($receivedDateTime < $lastRouteAccessTime) {
+					Log::error('Laravel Centinel API: request time mismatch (2)');
 
-				return false;
+					return false;
+				}
 			}
 		}
 

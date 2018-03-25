@@ -2,7 +2,9 @@
 
 This package provides API for downloading the application log file, and dumping and downloading the database. It ships with authentication middleware which protects the API routes.
 
-##### For **Laravel 4.2** use [Centinel API v1.1](https://github.com/GTCrais/LaravelCentinelApi/tree/v1.1)
+Centinel API is designed to work in combination with [**Centinel**](https://centinel.online) - centralized application management system. 
+
+> ##### For **Laravel 4.2** use [Centinel API v1.1](https://github.com/GTCrais/LaravelCentinelApi/tree/v1.1)
 
 ## Requirements
 
@@ -14,7 +16,7 @@ This package provides API for downloading the application log file, and dumping 
 ## Installation: Laravel
 
 - add `"gtcrais/laravel-centinel-api": "2.0.*"` to your `composer.json` and run `composer update`
-- for Laravel `<=5.4` add `'GTCrais\LaravelCentinelApi\CentinelApiServiceProvider',` to providers array in `/app/config/app.php` and run `composer dump-autoload`
+- for Laravel `<=5.4` add `GTCrais\LaravelCentinelApi\LaravelCentinelApiServiceProvider::class,` to providers array in `/app/config/app.php` and run `composer dump-autoload`
 - run `php artisan centinel-api:setup`
 
 ## Installation: Lumen
@@ -43,17 +45,16 @@ it will look in `.env` file. Make sure one of these options is available if you 
 
 ## Usage
 
-Laravel Centinel API is designed to work in combination with [Centinel](https://centinel.online) - centralized application management system. 
-
-After going through the installation process you will find your `centinelApi.php` file in `/config` directory.
-From there, copy `privateKey`, `encryptionKey` and `routePrefix` to Centinel, and you're ready to schedule your application log checks and database backups.
+After going through the installation process you will find `centinelApi.php` configuration file in `/config` directory.
+From there, copy `privateKey`, `encryptionKey` and `routePrefix` to [**Centinel**](https://centinel.online), and you're ready to schedule your application log checks and database backups.
 
 ### Config File
 
 - `privateKey` - random string, used for authentication  
 - `encryptionKey` - random string, used for additional security layer 
 - `routePrefix` - random string, prefixing the API routes  
-- `enabledRoutes` - if you only wish part of the API to be exposed, you can disable either Log or Database routes here 
+- `enabledRoutes` - if you only wish to expose a part of the API, you can disable either Log or Database routes here 
+- `disableTimeBasedAuthorization` - set to `true` in case of your server's and Centinel's datetime being out of sync which results in `Request time mismatch` or `Too many API calls` error
 - `zipPassword` - password used when zipping the database dump
 - `database` - database settings and options
 
@@ -78,7 +79,7 @@ For more details check `/Controllers/CentinelApiController.php` controller.
 
 ### Database Backups
 
-[`spatie/db-dumper`](https://github.com/spatie/db-dumper) is used to make database dumps. **MySQL** and **PostgreSQL**
+[Spatie DB Dumper](https://github.com/spatie/db-dumper) is used to make database dumps. **MySQL** and **PostgreSQL**
 are supported, and require `mysqldump` and `pg_dump` utilities, respectively.
 
 Additionally, on Laravel/Lumen **5.2+** applications running on **PHP 7**, **Sqlite** and **MongoDB** are supported, and require
