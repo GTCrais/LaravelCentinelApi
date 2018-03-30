@@ -15,13 +15,13 @@ Centinel API is designed to work in combination with [**Centinel**](https://cent
 
 ## Installation: Laravel
 
-- add `"gtcrais/laravel-centinel-api": "2.0.*"` to your `composer.json` and run `composer update`
+- add `"gtcrais/laravel-centinel-api": "2.1.*"` to your `composer.json` and run `composer update`
 - for Laravel `<=5.4` add `GTCrais\LaravelCentinelApi\LaravelCentinelApiServiceProvider::class,` to providers array in `/app/config/app.php` and run `composer dump-autoload`
 - run `php artisan centinel-api:setup`
 
 ## Installation: Lumen
 
-- add `"gtcrais/laravel-centinel-api": "2.0.*"` to your `composer.json` and run `composer update`
+- add `"gtcrais/laravel-centinel-api": "2.1.*"` to your `composer.json` and run `composer update`
 - uncomment `$app->withFacades();` in `/bootstrap/app.php`
 - add `$app->configure('centinelApi');` to `/bootstrap/app.php`. This will load Centinel API configuration
 - add `$app->register(GTCrais\LaravelCentinelApi\LumenCentinelApiServiceProvider::class);` to `/bootstrap/app.php` **below** config file registration
