@@ -4,7 +4,7 @@ This package provides API for downloading the application log file, and dumping 
 
 Centinel API is designed to work in combination with [**Centinel**](https://centinel.online) - centralized application management system. 
 
-> ##### For **Laravel 4.2** use [Centinel API v1.1](https://github.com/GTCrais/LaravelCentinelApi/tree/v1.1)
+> ##### For **Laravel 4.2** use [Centinel API v1.2](https://github.com/GTCrais/LaravelCentinelApi/tree/v1.2)
 
 ## Requirements
 
