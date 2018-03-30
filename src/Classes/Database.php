@@ -54,12 +54,12 @@ class Database
 			$dumper = $dumper->setPort(self::getOption('port'));
 		}
 
-		if (self::optionIsSet('unix_socket')) {
-			$dumper = $dumper->setSocket(self::getOption('unix_socket'));
+		if (self::optionIsSet('unixSocket')) {
+			$dumper = $dumper->setSocket(self::getOption('unixSocket'));
 		}
 
-		if (self::optionIsSet('dump_binary_path')) {
-			$dumper = $dumper->setDumpBinaryPath(self::getOption('dump_binary_path'));
+		if (self::optionIsSet('dumpBinaryPath')) {
+			$dumper = $dumper->setDumpBinaryPath(self::getOption('dumpBinaryPath'));
 		}
 
 		if (self::optionIsSet('timeout')) {
@@ -95,12 +95,12 @@ class Database
 			$dumper = $dumper->setPort(self::getOption('port'));
 		}
 
-		if (self::optionIsSet('unix_socket')) {
-			$dumper = $dumper->setSocket(self::getOption('unix_socket'));
+		if (self::optionIsSet('unixSocket')) {
+			$dumper = $dumper->setSocket(self::getOption('unixSocket'));
 		}
 
-		if (self::optionIsSet('dump_binary_path')) {
-			$dumper = $dumper->setDumpBinaryPath(self::getOption('dump_binary_path'));
+		if (self::optionIsSet('dumpBinaryPath')) {
+			$dumper = $dumper->setDumpBinaryPath(self::getOption('dumpBinaryPath'));
 		}
 
 		if (self::optionIsSet('timeout')) {

@@ -16,8 +16,8 @@ return [
 	'database' => [
 		'connection' => '{default}',
 		'port' => null,
-		'unix_socket' => null,
-		'dump_binary_path' => null,
+		'unixSocket' => null,
+		'dumpBinaryPath' => null,
 		'timeout' => 120,
 		'includeTables' => null,
 		'excludeTables' => null

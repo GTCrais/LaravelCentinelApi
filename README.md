@@ -31,8 +31,8 @@ From there, copy `privateKey`, `encryptionKey` and `routePrefix` to Centinel, an
 - `database` - database settings and options:
     - `connection` - required. `{default}` to use the default connection, or define connection explicitly
     - `port` - optional. Connection port
-    - `unix_socket` - optional. Connection unix socket
-    - `dump_binary_path` - optional. Path to dump utility
+    - `unixSocket` - optional. Connection unix socket
+    - `dumpBinaryPath` - optional. Path to dump utility
     - `timeout` - optional. Dump timeout
     - `includeTables` - optional. Dump only tables specified in the array
     - `excludeTables` - optional. Dump all tables except ones specified in the array
