@@ -36,9 +36,7 @@ class Config
 	{
 		if (
 			$connection['driver'] &&
-			$connection['host'] &&
-			$connection['database'] &&
-			$connection['username']
+			$connection['database']
 		) {
 			return true;
 		}

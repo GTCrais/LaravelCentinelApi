@@ -41,16 +41,16 @@ return [
 
 	'database' => [
 		'connection' => '{default}',
-		'dump_binary_path' => null,
+		'dumpBinaryPath' => null,
 		'timeout' => 120,
 
 		// MySQL, PostgreSQL, MongoDB
 		'port' => null, // can be overridden through /config/database.php config file
 
 		// MySQL, PostgreSQL
-		'unix_socket' => null, // can be overridden through /config/database.php config file
-		'includeTables' => null, // array
-		'excludeTables' => null, // array
+		'unixSocket' => null, // can be overridden with 'unix_socket' in /config/database.php config file
+		'includeTables' => null, // null or array
+		'excludeTables' => null, // null or array
 
 		// MySQL
 		'dontSkipComments' => null, // null or true
@@ -58,7 +58,7 @@ return [
 		'useSingleTransaction' => null, // null or true
 		'defaultCharacterSet' => null,
 		'gtidPurged' => null,
-		'extraOptions' => null, // array
+		'extraOptions' => null, // null or array
 
 		// PostgreSQL
 		'useInserts' => null, // null or true
