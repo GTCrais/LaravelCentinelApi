@@ -121,8 +121,8 @@ class Database
 			$dumper = $dumper->setHost($connection['host']);
 		}
 
-		if (self::optionIsSet('dump_binary_path') && method_exists($dumper, 'setDumpBinaryPath')) {
-			$dumper = $dumper->setDumpBinaryPath(self::getOption('dump_binary_path'));
+		if (self::optionIsSet('dumpBinaryPath') && method_exists($dumper, 'setDumpBinaryPath')) {
+			$dumper = $dumper->setDumpBinaryPath(self::getOption('dumpBinaryPath'));
 		}
 
 		if (self::optionIsSet('timeout') && method_exists($dumper, 'setTimeout')) {
@@ -140,8 +140,8 @@ class Database
 		if (method_exists($dumper, 'setSocket')) {
 			if (!empty($connection['unix_socket'])) {
 				$dumper = $dumper->setSocket($connection['unix_socket']);
-			} else if (self::optionIsSet('unix_socket')) {
-				$dumper = $dumper->setSocket(self::getOption('unix_socket'));
+			} else if (self::optionIsSet('unixSocket')) {
+				$dumper = $dumper->setSocket(self::getOption('unixSocket'));
 			}
 		}
 
