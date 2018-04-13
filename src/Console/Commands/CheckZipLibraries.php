@@ -49,6 +49,18 @@ class CheckZipLibraries extends Command
 			file_put_contents($filePath, '');
 		}
 
+		Zipper::createNativeZip($filePath, $zipPath);
+
+		if (file_exists($zipPath)) {
+			unlink($zipPath);
+
+			$this->info("You're using PHP version " . PHP_VERSION . " so native Zip encryption is available! Your database dumps will be zipped and encrypted with AES-256.");
+
+			return;
+		}
+
+		$this->info("Native Zip encryption is not available.");
+
 		Zipper::create7zip($filePath, $zipPath);
 
 		if (file_exists($zipPath)) {

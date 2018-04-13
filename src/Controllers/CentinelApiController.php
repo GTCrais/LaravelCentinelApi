@@ -102,8 +102,13 @@ class CentinelApiController extends Controller
 		$zipFilename = 'databasedump.zip';
 		$zipPath = Database::getDumpPath($zipFilename);
 
+		// Try native zip
+		Zipper::createNativeZip($filePath, $zipPath);
+
 		// Try 7-zip
-		Zipper::create7zip($filePath, $zipPath);
+		if (!file_exists($zipPath)) {
+			Zipper::create7zip($filePath, $zipPath);
+		}
 
 		// Try regular zip
 		if (!file_exists($zipPath)) {
