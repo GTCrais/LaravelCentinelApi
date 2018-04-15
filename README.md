@@ -45,6 +45,8 @@ it will look in `.env` file. Make sure one of these options is available if you 
 
 ## Usage
 
+**It's highly recommended to use this plugin only on websites that use HTTPS!**
+
 After going through the installation process you will find `centinelApi.php` configuration file in `/config` directory.
 From there, copy `privateKey`, `encryptionKey` and `routePrefix` to [**Centinel**](https://centinel.online), and you're ready to schedule your application log checks and database backups.
 
