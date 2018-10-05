@@ -9,6 +9,10 @@ class Platform
 
 	public static function getPlatform()
 	{
+		if (!self::$platform) {
+			throw new \Exception('Centinel API - Platform not set!');
+		}
+
 		return self::$platform;
 	}
 
@@ -22,10 +26,5 @@ class Platform
 		preg_match('/\d+\.\d+(\.\d+)?/', app()->version(), $matches);
 
 		return (is_array($matches) && isset($matches[0])) ? $matches[0] : 0;
-	}
-
-	public static function getLogFilename()
-	{
-		return self::getPlatform() == 'laravel' ? 'laravel.log' : 'lumen.log';
 	}
 }

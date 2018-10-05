@@ -2,7 +2,7 @@
 
 namespace GTCrais\LaravelCentinelApi\Console\Commands;
 
-use GTCrais\LaravelCentinelApi\Classes\Platform;
+use GTCrais\LaravelCentinelApi\Classes\LogFile;
 use GTCrais\LaravelCentinelApi\Classes\Zipper;
 use Illuminate\Console\Command;
 
@@ -41,13 +41,8 @@ class CheckZipLibraries extends Command
     {
 		$this->info("Checking Zip libraries availability...");
 
-		$filename = Platform::getLogFilename();
-		$filePath = storage_path('logs/' . $filename);
+		$filePath = LogFile::getOrCreateFirstExistingLogFilePath();
 		$zipPath = storage_path('logs/laravel.zip');
-
-		if (!file_exists($filePath)) {
-			file_put_contents($filePath, '');
-		}
 
 		Zipper::createNativeZip($filePath, $zipPath);
 
