@@ -4,6 +4,7 @@ namespace GTCrais\LaravelCentinelApi\Controllers;
 
 use App\Http\Controllers\Controller;
 use GTCrais\LaravelCentinelApi\Classes\Database;
+use GTCrais\LaravelCentinelApi\Classes\LogFile;
 use GTCrais\LaravelCentinelApi\Classes\Platform;
 use GTCrais\LaravelCentinelApi\Classes\Zipper;
 use Illuminate\Http\Request;
@@ -14,12 +15,12 @@ class CentinelApiController extends Controller
 	public function createLog()
 	{
 		$data = $this->getDefaultDataSet();
-
-		$filePath = storage_path('logs/' . Platform::getLogFilename());
+		$logFileData = LogFile::mergeLogs();
 
 		try {
-		    if (file_exists($filePath)) {
-				$logContents = file_get_contents($filePath);
+			if ($logFileData['tempLogFile'] && file_exists($logFileData['tempLogFile'])) {
+				$mergedFilePath = $logFileData['tempLogFile'];
+				$logContents = file_get_contents($mergedFilePath);
 
 				if (!trim($logContents)) {
 					$data['success'] = true;
@@ -27,16 +28,35 @@ class CentinelApiController extends Controller
 					return response()->json($data);
 				}
 
-				$filesize = filesize($filePath);
+				$filesize = filesize($mergedFilePath);
 				$foldersData = $this->createLogFolders();
-				$newFilePath = 'logs/y' . $foldersData['year'] . '/m' . $foldersData['month'] . '/' . (date('Y-m-d__H_i_s')) . '.log';
 
-				file_put_contents(storage_path($newFilePath), $logContents);
-				file_put_contents($filePath, '');
+				if ($logFileData['logFiles']) {
+					foreach ($logFileData['logFiles'] as $logFilePath) {
+						$newOriginalFilePath = 'logs/y' . $foldersData['year'] . '/m' . $foldersData['month'] . '/original_' . basename($logFilePath, '.log') . '___' . (date('Y-m-d__H_i_s')) . '.log';
+						file_put_contents(storage_path($newOriginalFilePath), file_get_contents($logFilePath));
+
+						try {
+						    unlink($logFilePath);
+						} catch (\Exception $e) {
+
+						}
+					}
+				}
+
+				$newMergedFilePath = 'logs/y' . $foldersData['year'] . '/m' . $foldersData['month'] . '/merged_' . (date('Y-m-d__H_i_s')) . '.log';
+
+				file_put_contents(storage_path($newMergedFilePath), $logContents);
+
+				try {
+				    unlink($mergedFilePath);
+				} catch (\Exception $e) {
+
+				}
 
 				$data['success'] = true;
 				$data['filesize'] = $filesize;
-				$data['filePath'] = $newFilePath;
+				$data['filePath'] = $newMergedFilePath;
 			} else {
 				$data['message'] = "Log file doesn't exist";
 			}
