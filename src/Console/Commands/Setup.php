@@ -82,6 +82,13 @@ class Setup extends Command
 			file_get_contents(base_path('/config/centinelApi.php'))
 		));
 
+		// Make configuration immediately available
+		// for the check-zip console command
+		config(['centinelApi.privateKey' => $privateKey]);
+		config(['centinelApi.encryptionKey' => $encryptionKey]);
+		config(['centinelApi.routePrefix' => $routePrefix]);
+		config(['centinelApi.zipPassword' => $zipPassword]);
+
 		$this->info("Private key, encryption key, routes prefix and zip password successfully generated");
 
 		$this->call('centinel-api:check-zip');

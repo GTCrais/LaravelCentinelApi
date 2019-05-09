@@ -7,12 +7,32 @@ class Zipper
 {
 	public static function createRegularZip($filePath, $zipPath)
 	{
-		shell_exec('zip -j -P ' . escapeshellarg(self::getZipPassword()) . ' ' . escapeshellarg($zipPath) . ' ' . escapeshellarg($filePath));
+		try {
+			shell_exec('zip -j -P ' . escapeshellarg(self::getZipPassword()) . ' ' . escapeshellarg($zipPath) . ' ' . escapeshellarg($filePath));
+		} catch (\Throwable $e) {
+			if (file_exists($zipPath)) {
+				unlink($zipPath);
+			}
+
+			return 'The following error has occurred while trying to use the Zip library: ' . $e->getMessage();
+		}
+
+		return null;
 	}
 
 	public static function create7zip($filePath, $zipPath)
 	{
-		shell_exec('7za a -p' . escapeshellarg(self::getZipPassword()) . ' -mem=AES256 -mx=0 -tzip ' . escapeshellarg($zipPath) . ' ' . escapeshellarg($filePath));
+		try {
+			shell_exec('7za a -p' . escapeshellarg(self::getZipPassword()) . ' -mem=AES256 -mx=0 -tzip ' . escapeshellarg($zipPath) . ' ' . escapeshellarg($filePath));
+		} catch (\Throwable $e) {
+			if (file_exists($zipPath)) {
+				unlink($zipPath);
+			}
+
+			return 'The following error has occurred while trying to use the 7-zip library: ' . $e->getMessage();
+		}
+
+		return null;
 	}
 
 	public static function createNativeZip($filePath, $zipPath)
@@ -32,8 +52,12 @@ class Zipper
 				if (file_exists($zipPath)) {
 					unlink($zipPath);
 				}
+
+				return 'The following error has occurred while trying to use the native Zip library: ' . $e->getMessage();
 			}
 		}
+
+		return null;
 	}
 
 	protected static function getZipPassword()
