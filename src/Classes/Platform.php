@@ -2,7 +2,6 @@
 
 namespace GTCrais\LaravelCentinelApi\Classes;
 
-
 class Platform
 {
 	protected static $platform;

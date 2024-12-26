@@ -5,7 +5,7 @@
     "authors": [
         {
             "name": "Tomislav Modrić",
-            "email": "tomislav@gtcrais.net"
+            "email": "tomislav@tmweb.dev"
         }
     ],
     "license": "MIT",
@@ -16,7 +16,7 @@
         }
     },
     "require": {
-        "spatie/db-dumper": "1.5.1|2.9.*"
+        "spatie/db-dumper": "1.5.1|2.9.*|3.*"
     },
     "extra": {
         "laravel": {

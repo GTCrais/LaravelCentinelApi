@@ -2,7 +2,6 @@
 
 namespace GTCrais\LaravelCentinelApi\Classes;
 
-
 class Zipper
 {
 	public static function createRegularZip($filePath, $zipPath)

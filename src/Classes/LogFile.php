@@ -2,7 +2,6 @@
 
 namespace GTCrais\LaravelCentinelApi\Classes;
 
-
 class LogFile
 {
 	public static function mergeLogs()
